@@ -12,3 +12,5 @@ Build a RESTful API for football manager basic operations, like:
 ### To run the application, please follow the next steps:
 1. TODO
 2. TODO
+
+All the information are gathered from the [transfermarkt](https://www.transfermarkt.com/) site.

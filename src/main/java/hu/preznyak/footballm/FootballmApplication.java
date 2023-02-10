@@ -1,4 +1,4 @@
-package hu.preznyak.footballm.footballm;
+package hu.preznyak.footballm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
