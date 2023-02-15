@@ -57,6 +57,18 @@ public class PlayerService {
         this.playerRepository.deleteById(id);
     }
 
+    public List<Player> findAllByPositionAndAgeLessThan(String position, Integer age) {
+        List<Player> players = new ArrayList<>();
+        this.playerRepository.findAllByPositionAndAgeLessThan(position, age).forEach(players::add);
+        return players;
+    }
+
+    public List<Player> findAllByPosition(String position) {
+        List<Player> players = new ArrayList<>();
+        this.playerRepository.findAllByPosition(position).forEach(players::add);
+        return players;
+    }
+
     public void updateMarketPrices() {
         JobParametersBuilder parametersBuilder = new JobParametersBuilder();
         parametersBuilder.addDate("date", new Date());

@@ -1,8 +1,5 @@
 package hu.preznyak.footballm.data;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hu.preznyak.footballm.util.DoubleJsonSerializer;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,7 +19,6 @@ public class Player implements Serializable {
     @Column(name = "SHIRT_NUMBER")
     private Integer shirtNumber;
     @Column(name = "MARKET_PRICE")
-    @JsonSerialize(using = DoubleJsonSerializer.class)
     private Double marketPrice;
     @Column(name = "AGE", nullable = false)
     private Integer age;
