@@ -12,6 +12,7 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -58,6 +59,7 @@ public class PlayerService {
 
     public void updateMarketPrices() {
         JobParametersBuilder parametersBuilder = new JobParametersBuilder();
+        parametersBuilder.addDate("date", new Date());
         try {
             this.jobLauncher.run(marketPriceManipulator.manipulateMarketPriceJob(), parametersBuilder.toJobParameters());
         } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException | JobRestartException |

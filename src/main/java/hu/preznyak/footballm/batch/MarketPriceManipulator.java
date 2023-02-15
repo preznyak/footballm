@@ -1,8 +1,10 @@
 package hu.preznyak.footballm.batch;
 
 import hu.preznyak.footballm.data.Player;
-import hu.preznyak.footballm.processor.PlayerItemProcessor;
-import hu.preznyak.footballm.util.PlayerItemPreparedStatementSetter;
+import hu.preznyak.footballm.processor.MarketPriceProcessor;
+import hu.preznyak.footballm.processor.SalaryProcessor;
+import hu.preznyak.footballm.util.PlayerItemPreparedStatementSetterForMarketPrice;
+import hu.preznyak.footballm.util.PlayerItemPreparedStatementSetterForSalaryPerWeek;
 import hu.preznyak.footballm.util.PlayerRowMapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -30,7 +32,8 @@ public class MarketPriceManipulator {
     private static final String SELECT_PLAYERS_SQL = "select PLAYER_ID, " +
             "NAME, POS, SHIRT_NUMBER, MARKET_PRICE, " +
             "AGE, NATIONALITY, GOOD_FORM, SALARY_PER_WEEK from PLAYER order by PLAYER_ID";
-    private static final String UPDATE_PLAYERS_SQL = "UPDATE player SET market_price = ? WHERE player_id = ?";
+    private static final String UPDATE_PLAYERS_MARKET_PRICE_SQL = "UPDATE player SET market_price = ? WHERE player_id = ?";
+    private static final String UPDATE_PLAYERS_SALARY_SQL = "UPDATE player SET salary_per_week = ? WHERE player_id = ?";
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
     @Autowired
@@ -52,17 +55,32 @@ public class MarketPriceManipulator {
     }
 
     @Bean
-    public PlayerItemProcessor processor() {
-        return new PlayerItemProcessor();
+    public MarketPriceProcessor marketPriceProcessor() {
+        return new MarketPriceProcessor();
     }
 
     @Bean
-    public ItemWriter<Player> itemWriter() {
+    public SalaryProcessor salaryProcessor() {
+        return new SalaryProcessor();
+    }
+
+    @Bean
+    public ItemWriter<Player> updateMarketPriceWriter() {
 
         return new JdbcBatchItemWriterBuilder<Player>()
                 .dataSource(dataSource)
-                .sql(UPDATE_PLAYERS_SQL)
-                .itemPreparedStatementSetter(new PlayerItemPreparedStatementSetter())
+                .sql(UPDATE_PLAYERS_MARKET_PRICE_SQL)
+                .itemPreparedStatementSetter(new PlayerItemPreparedStatementSetterForMarketPrice())
+                .build();
+    }
+
+    @Bean
+    public ItemWriter<Player> updateSalaryWriter() {
+
+        return new JdbcBatchItemWriterBuilder<Player>()
+                .dataSource(dataSource)
+                .sql(UPDATE_PLAYERS_SALARY_SQL)
+                .itemPreparedStatementSetter(new PlayerItemPreparedStatementSetterForSalaryPerWeek())
                 .build();
     }
 
@@ -70,7 +88,8 @@ public class MarketPriceManipulator {
     public Job manipulateMarketPriceJob() {
         return this.jobBuilderFactory.get("manipulateMarketPriceJob")
                 .incrementer(new RunIdIncrementer())
-                .start(changeMarketPriceStep()).build();
+                .start(changeMarketPriceStep())
+                .next(changeSalaryStep()).build();
     }
 
     @Bean
@@ -78,8 +97,18 @@ public class MarketPriceManipulator {
         return this.stepBuilderFactory.get("changeMarketPriceStep")
                 .<Player, Player>chunk(5)
                 .reader(itemReader())
-                .processor(processor())
-                .writer(itemWriter())
+                .processor(marketPriceProcessor())
+                .writer(updateMarketPriceWriter())
+                .build();
+    }
+
+    @Bean
+    public Step changeSalaryStep() {
+        return this.stepBuilderFactory.get("changeSalaryStep")
+                .<Player, Player>chunk(5)
+                .reader(itemReader())
+                .processor(salaryProcessor())
+                .writer(updateSalaryWriter())
                 .build();
     }
 

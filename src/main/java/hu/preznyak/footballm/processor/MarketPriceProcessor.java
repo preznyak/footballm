@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-public class PlayerItemProcessor implements ItemProcessor<Player, Player> {
-    private static final Logger log = LoggerFactory.getLogger(PlayerItemProcessor.class);
+public class MarketPriceProcessor implements ItemProcessor<Player, Player> {
+    private static final Logger log = LoggerFactory.getLogger(MarketPriceProcessor.class);
 
     @Override
     public Player process(Player player) {
