@@ -1,0 +1,8 @@
+CREATE TABLE team (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    stadium VARCHAR(50) NOT NULL,
+    coach VARCHAR(40),
+    budget INTEGER NOT NULL
+);

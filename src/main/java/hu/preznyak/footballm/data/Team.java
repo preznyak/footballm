@@ -4,22 +4,21 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "TEAM")
+@Table(name = "team")
 public class Team implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TEAM_ID", nullable = false)
     private Integer id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "CITY", nullable = false)
+    @Column(name = "city", nullable = false)
     private String city;
-    @Column(name = "STADIUM", nullable = false)
+    @Column(name = "stadium", nullable = false)
     private String stadium;
-    @Column(name = "COACH")
+    @Column(name = "coach")
     private String coach;
-    @Column(name = "BUDGET", nullable = false)
+    @Column(name = "budget", nullable = false)
     private Double budget;
 
     public Integer getId() {

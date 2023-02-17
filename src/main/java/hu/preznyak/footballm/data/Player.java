@@ -1,40 +1,42 @@
 package hu.preznyak.footballm.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PLAYER")
+@Table(name = "player")
 public class Player implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PLAYER_ID", nullable = false)
     private int id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(nullable = false)
     private String name;
-    @Column(name = "POS", nullable = false)
+    @Column(name = "pos", nullable = false)
     private String position;
-    @Column(name = "SHIRT_NUMBER")
+    @Column(name = "shirt_number")
     private Integer shirtNumber;
-    @Column(name = "MARKET_PRICE")
+    @Column(name = "market_price")
+    @JsonFormat()
     private Double marketPrice;
-    @Column(name = "AGE", nullable = false)
+    @Column(name = "age", nullable = false)
     private Integer age;
-    @Column(name = "NATIONALITY", nullable = false)
+    @Column(name = "nationality", nullable = false)
     private String nationality;
     /*
     Salary per week is not perfectly correct, we just need some additional field to play with.
      */
-    @Column(name = "SALARY_PER_WEEK")
+    @Column(name = "salary_per_week")
     private Double salaryPerWeek;
 
 //    @ManyToOne(targetEntity = Team.class)
 //    @JoinColumn(name = "TEAM_ID")
 //    private Team team;
 
-    @Column(name = "GOOD_FORM")
+    @Column(name = "good_form")
     private boolean goodForm;
 
     public int getId() {

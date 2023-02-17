@@ -11,10 +11,7 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class PlayerService {
@@ -47,7 +44,18 @@ public class PlayerService {
     }
 
     public Player updatePlayer(Player player) {
-        return this.playerRepository.save(player);
+        if (Objects.isNull(player)) {
+            throw new IllegalArgumentException("The input data is null.");
+        }
+        Player toUpdate = this.playerRepository.findById(player.getId()).orElseThrow(
+                () -> new NoSuchElementException("No player found with the given id: "+ player.getId())
+        );
+        toUpdate.setShirtNumber(player.getShirtNumber());
+        toUpdate.setGoodForm(player.isGoodForm());
+        toUpdate.setSalaryPerWeek(player.getSalaryPerWeek());
+        toUpdate.setPosition(player.getPosition());
+        toUpdate.setMarketPrice(player.getMarketPrice());
+        return this.playerRepository.save(toUpdate);
     }
 
     public void deletePlayerById(Integer id) {

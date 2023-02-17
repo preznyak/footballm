@@ -17,7 +17,7 @@ public class PlayerRowMapper implements RowMapper<Player> {
     @Override
     public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
         Player player = new Player();
-        player.setId(rs.getInt("player_id"));
+        player.setId(rs.getInt("id"));
         player.setName(rs.getString("name"));
         player.setPosition(rs.getString("pos"));
         player.setMarketPrice(rs.getDouble("market_price"));

@@ -29,11 +29,11 @@ import javax.sql.DataSource;
 @EnableScheduling
 public class MarketPriceManipulator {
 
-    private static final String SELECT_PLAYERS_SQL = "select PLAYER_ID, " +
-            "NAME, POS, SHIRT_NUMBER, MARKET_PRICE, " +
-            "AGE, NATIONALITY, GOOD_FORM, SALARY_PER_WEEK from PLAYER order by PLAYER_ID";
-    private static final String UPDATE_PLAYERS_MARKET_PRICE_SQL = "UPDATE player SET market_price = ? WHERE player_id = ?";
-    private static final String UPDATE_PLAYERS_SALARY_SQL = "UPDATE player SET salary_per_week = ? WHERE player_id = ?";
+    private static final String SELECT_PLAYERS_SQL = "select id, " +
+            "name, pos, shirt_number, market_price, " +
+            "age, nationality, good_form, salary_per_week FROM player ORDER BY id";
+    private static final String UPDATE_PLAYERS_MARKET_PRICE_SQL = "UPDATE player SET market_price = ? WHERE id = ?";
+    private static final String UPDATE_PLAYERS_SALARY_SQL = "UPDATE player SET salary_per_week = ? WHERE id = ?";
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
     @Autowired
